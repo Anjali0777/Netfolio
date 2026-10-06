@@ -226,7 +226,12 @@ section.block{padding-block:clamp(44px,6vw,72px)}
 .top-card{isolation:isolate}.top-card.photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:52% 62%;z-index:-2}
 .top-card.photo::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,transparent 15%,rgba(0,0,0,.55) 45%,rgba(0,0,0,.95))}
 .top-card>*{position:relative;z-index:1}
-.top-card b{font:400 46px/.9 var(--display);color:#fff}
+.top-card b{font:400 32px/.92 var(--display);color:#fff;letter-spacing:.01em}
+.top-card .top-glyph{position:absolute;top:34px;right:14px;width:46%;opacity:.8}
+.top-card .top-glyph svg{width:100%;height:auto;fill:none;stroke:hsl(var(--h) 90% 78%);stroke-width:1.2}
+.top-card.contain{background:#fff}
+.top-card.contain img{object-fit:contain;object-position:50% 18%;padding:18% 12% 0}
+.top-card.contain::after{background:linear-gradient(180deg,transparent 42%,#111113 64%)}
 .top-card span{font-size:12.5px;line-height:1.35;color:var(--fg-2);margin-top:6px}
 .top-card .mark{position:absolute;top:10px;left:10px;font:400 18px/1 var(--display);color:var(--red)}
 
@@ -388,7 +393,7 @@ footer{border-top:1px solid var(--line);padding-block:28px 40px}
       <a href="#about">About</a>
       <a href="#experience">Experience</a>
       <a href="#projects">Projects</a>
-      <a href="#top10">Results</a>
+      <a href="#top10">Top 10</a>
       <a href="#leadership">Leadership</a>
       <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
@@ -401,7 +406,7 @@ footer{border-top:1px solid var(--line);padding-block:28px 40px}
     </div>
   </div>
   <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
-    <a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#top10">Results</a><a href="#leadership">Leadership</a><a href="#skills">Skills</a><a href="#contact">Contact</a>
+    <a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#top10">Top 10</a><a href="#leadership">Leadership</a><a href="#skills">Skills</a><a href="#contact">Contact</a>
   </nav>
 </header>
 
@@ -525,7 +530,7 @@ footer{border-top:1px solid var(--line);padding-block:28px 40px}
   <!-- Top 10 -->
   <section class="block" id="top10">
     <div class="wrap">
-      <div class="sec-head"><div><p class="eyebrow">Ranked by impact</p><h2>Top 10 results</h2></div></div>
+      <div class="sec-head"><div><p class="eyebrow">Today on ANJALI</p><h2>Top 10</h2></div></div>
       <div class="rail-wrap">
         <button class="rail-arrow l" data-rail="topRail" data-dir="-1" aria-label="Scroll left"><svg class="icon" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button>
         <div class="rail top10" id="topRail"></div>
@@ -728,16 +733,16 @@ const DATA = {
      stack:['Python','SQL','MySQL','MSSQL','Machine learning']}
   ],
   top: [
-    {id:'t1', stat:'1st', label:'Place at a UW–Whitewater hackathon', photo:'hackathon', ctx:'A first-place finish with a three-person team, building a working solution under a hard deadline.', link:'hack-first'},
-    {id:'t2', h:212, stat:'99.5%', label:'Functional test coverage at ABB', ctx:'Achieved by architecting 150+ automated test frameworks validating load balancing, failover, and fault tolerance on an 8-node distributed system.', link:'exp-abb'},
-    {id:'t3', h:262, stat:'150+', label:'Automated test frameworks built', ctx:'Object-oriented frameworks in Python and C# covering a distributed 8-node industrial system at ABB.', link:'exp-abb'},
-    {id:'t4', h:188, stat:'80%', label:'Less manual testing time', ctx:'Real-time embedded test sequences in C# replaced manual test runs at ABB.', link:'exp-abb'},
-    {id:'t5', h:24, stat:'80%', label:'Less manual data processing', ctx:'Object-oriented ETL pipelines in Python and SQL automated ingestion, validation, and integration at the Fiscal & Economic Research Center.', link:'exp-ferc'},
-    {id:'t6', h:188, stat:'3×', label:'Analytical throughput', ctx:'Reusable backend data models and REST endpoints supporting 100+ queries let researchers self-serve.', link:'exp-ferc'},
-    {id:'t7', h:262, stat:'60%', label:'Less debugging effort', ctx:'Faster fault diagnosis from embedded test sequences at ABB.', link:'exp-abb'},
-    {id:'t8', h:352, stat:'20%', label:'Sales revenue increase contributed', ctx:'Machine-learning improvements to product recommendations at Imbed Biosciences.', link:'exp-imbed'},
-    {id:'t9', h:42, stat:'3.8', label:'GPA in Computer Science', ctx:'Computer Science, graduating December 2026.'},
-    {id:'t10', h:42, stat:'6', label:'Straight semesters on the Dean’s List', ctx:'Dean’s List every semester from Fall 2023 through Spring 2026.'}
+    {id:'t1', title:'NorthStar Medical', label:'AI Application Development Intern', photo:'northstar', pos:'50% 75%', open:['exp','exp-northstar']},
+    {id:'t2', title:'Hackathon Winner', label:'1st place, UW–Whitewater hackathon', photo:'hackathon', pos:'50% 62%', open:['project','hack-first']},
+    {id:'t3', title:'CS Tutor', label:'C++ and Python tutoring', h:24, open:['project','hack-tutor']},
+    {id:'t4', title:'DevOpBridge', label:'Two-way DevOps + AI workflow sync', h:352, open:['project','devopbridge']},
+    {id:'t5', title:'Drone Swarm Research', label:'Undergraduate research, decentralized communication', h:212, open:['project','drone-research']},
+    {id:'t6', title:'ABB', label:'Software Engineering Intern · 99.5% test coverage', photo:'abb', pos:'78% 50%', open:['exp','exp-abb']},
+    {id:'t7', title:'Imbed Biosciences', label:'Software Engineering Intern · ML recommendations', photo:'imbed', contain:true, open:['exp','exp-imbed']},
+    {id:'t8', title:'Mood Journal', label:'Personal reflection app', h:24, open:['project','mood-journal']},
+    {id:'t9', title:'Enactus', label:'Software Lead · U.S. National Exposition 2025', photo:'enactus', pos:'50% 30%', open:['project','hack-enactus']},
+    {id:'t10', title:'Geospatial Map Game', label:'Interactive location-based game', h:188, open:['project','map-game']}
   ],
   leadership: [
     {id:'lead-badminton', title:'Badminton Club President', icon:'<path d="M14 4 20 10M7 17l-3 3M9 15l6-6M15 9l-2-5 7 7-5-2"/><circle cx="7.5" cy="16.5" r="2.5"/>', desc:'Led club activities and grew a stronger student community around the sport.'},
@@ -799,9 +804,9 @@ function renderProjects(filter='all'){
 }
 function renderTop(){
   $('#topRail').innerHTML = DATA.top.map((x,i)=>`
-    <div class="top-item" tabindex="0" role="button" data-kind="top" data-id="${x.id}" aria-label="Number ${i+1}: ${esc(x.stat)} ${esc(x.label)}">
+    <div class="top-item" tabindex="0" role="button" data-kind="${x.open[0]}" data-id="${x.open[1]}" aria-label="Number ${i+1}: ${esc(x.title)}, ${esc(x.label)}">
       <span class="top-num" aria-hidden="true">${i+1}</span>
-      <div class="top-card${x.photo?' photo':''}" style="--h:${x.h||352}">${x.photo?`<img src="${IMG[x.photo]}" alt="">`:''}<span class="mark" aria-hidden="true">A</span><b>${esc(x.stat)}</b><span>${esc(x.label)}</span></div>
+      <div class="top-card${x.photo?' photo':''}${x.contain?' contain':''}" style="--h:${x.h||352}">${x.photo?`<img src="${IMG[x.photo]}" alt="" style="${x.pos?'object-position:'+x.pos:''}">`:`<span class="top-glyph" aria-hidden="true">${GLYPH[Object.keys(HUE).find(k=>HUE[k]===x.h)||'systems']}</span>`}<span class="mark" aria-hidden="true">A</span><b>${esc(x.title)}</b><span>${esc(x.label)}</span></div>
     </div>`).join('');
 }
 function renderHack(){ $('#hackRail').innerHTML = DATA.hack.map(card).join(''); }
@@ -892,12 +897,6 @@ function openExp(id){
   fillDetail({hero:poster({...x,title:x.company},{titleTag:'span'}), kicker:`Episode ${x.ep}${x.now?' · Current':''}`, title:x.company,
     meta:`${esc(x.role)} · ${esc(x.dates)}`, summary:esc(x.sum), leftTitle:'What I did', left:ul(x.points), rightTitle:'Stack', right:chips(x.stack)});
 }
-function openTop(id){
-  const i=DATA.top.findIndex(t=>t.id===id), x=DATA.top[i]; if(!x) return;
-  const rel = x.link ? (ITEMS[x.link] ? `<button class="btn btn-ghost" data-kind="project" data-id="${x.link}">See the project</button>` : `<button class="btn btn-ghost" data-kind="exp" data-id="${x.link}">See the role</button>`) : '';
-  fillDetail({hero:x.photo?`<img src="${IMG[x.photo]}" alt="" style="object-position:50% 70%">`:`<div class="poster" style="--h:352"><span class="mark">A</span><span class="p-title">${esc(x.stat)}</span></div>`,
-    kicker:`No. ${i+1} in Top 10`, title:`${x.stat} — ${x.label}`, summary:esc(x.ctx), actions:rel});
-}
 function openLead(id){
   const x=DATA.leadership.find(l=>l.id===id); if(!x) return;
   fillDetail({hero:x.photo?`<img src="${IMG[x.photo]}" alt="" style="object-position:50% 30%">`:`<div class="poster" style="--h:${HUE.community}"><span class="mark">A</span><span class="p-glyph">${GLYPH.community}</span><span class="p-title">${esc(x.title)}</span></div>`,
@@ -918,7 +917,6 @@ function searchIndex(){
   return [
     ...DATA.experience.map(x=>({type:'Experience',title:x.company,sub:x.role,go:()=>openExp(x.id),text:[x.company,x.role,x.sum,...x.points,...x.stack].join(' ')})),
     ...[...DATA.projects,...DATA.hack].map(x=>({type:x.kind,title:x.title,sub:x.sub,go:()=>openProject(x.id),text:[x.title,x.sub,x.summary,...x.stack,...(x.cats||[])].join(' ')})),
-    ...DATA.top.map(x=>({type:'Result',title:`${x.stat} ${x.label}`,sub:x.ctx,go:()=>openTop(x.id),text:x.label+' '+x.ctx})),
     ...DATA.leadership.map(x=>({type:'Leadership',title:x.title,sub:x.desc,go:()=>openLead(x.id),text:x.title+' '+x.desc})),
     ...DATA.skills.flatMap(g=>g.items.map(s=>({type:'Skill',title:s,sub:g.group,go:()=>{closeModal();$('#skills').scrollIntoView({behavior:'smooth'})},text:s+' '+g.group})))
   ];
@@ -1015,7 +1013,7 @@ document.addEventListener('click',e=>{
   if(k){
     const {kind,id}=k.dataset;
     if(k.closest('#drawer')) openDrawer(false);
-    ({project:openProject,exp:openExp,top:openTop,lead:openLead})[kind]?.(id); return;
+    ({project:openProject,exp:openExp,lead:openLead})[kind]?.(id); return;
   }
   const ri=e.target.closest('[data-ri]'); if(ri){ const x=results[+ri.dataset.ri]; closeModal(); setTimeout(()=>x.go(),10); return; }
   const rail=e.target.closest('[data-rail]'); if(rail){ const el=$('#'+rail.dataset.rail); el.scrollBy({left:+rail.dataset.dir*el.clientWidth*.9,behavior:'smooth'}); return; }
