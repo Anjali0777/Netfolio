@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0b0c">
+<meta name="description" content="Weekly build log by Anjali Gupta: one project a week that solves a real business problem.">
+<title>Weekly Builds — ANJALI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="blog.css">
+</head>
+<body>
+<header class="topbar"><div class="wrap">
+  <a class="wordmark" href="../">ANJALI</a>
+  <nav class="topnav" aria-label="Primary"><a href="../">Home</a><a href="../#projects">Projects</a><a href="./" aria-current="page">Blog</a></nav>
+</div></header>
+<main class="wrap">
+  <div class="head">
+    <p class="eyebrow"><b>New</b> every week</p>
+    <h1>Weekly Builds</h1>
+    <p>One project a week, each aimed at a real business problem: what it costs today, what I built, and what it would save.</p>
+  </div>
+  <div class="grid" id="posts" aria-live="polite"></div>
+</main>
+<footer><div class="wrap">© <span id="yr"></span> Anjali Gupta · <a href="https://github.com/Anjali0777">GitHub</a></div></footer>
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt = d => new Date(d + 'T12:00:00').toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
+fetch('posts.json', {cache:'no-cache'}).then(r => r.json()).then(posts => {
+  const el = document.getElementById('posts');
+  posts.sort((a, b) => b.date.localeCompare(a.date));
+  if (!posts.length) { el.outerHTML = '<p class="empty">The first build lands soon.</p>'; return; }
+  el.innerHTML = posts.map(p => `
+    <a class="card" href="post.html?p=${encodeURIComponent(p.slug)}">
+      <span class="card-kind">Week ${esc(p.week)} · ${esc(fmt(p.date))}</span>
+      <h2>${esc(p.title)}</h2>
+      <p>${esc(p.summary)}</p>
+      <div class="chips">${(p.tags || []).map(t => `<span class="chip">${esc(t)}</span>`).join('')}</div>
+    </a>`).join('');
+}).catch(() => {
+  document.getElementById('posts').outerHTML = '<p class="empty">Couldn’t load posts right now.</p>';
+});
+</script>
+</body>
+</html>

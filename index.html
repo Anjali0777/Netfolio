@@ -398,6 +398,7 @@ footer{border-top:1px solid var(--line);padding-block:28px 40px}
       <a href="#experience">Experience</a>
       <a href="#projects">Projects</a>
       <a href="#top10">Top 10</a>
+      <a href="blog/">Blog</a>
       <a href="#leadership">Leadership</a>
       <a href="#skills">Skills</a>
       <a href="#contact">Contact</a>
@@ -410,7 +411,7 @@ footer{border-top:1px solid var(--line);padding-block:28px 40px}
     </div>
   </div>
   <nav class="mobile-nav" id="mobileNav" aria-label="Mobile">
-    <a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#top10">Top 10</a><a href="#leadership">Leadership</a><a href="#skills">Skills</a><a href="#contact">Contact</a>
+    <a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#top10">Top 10</a><a href="blog/">Blog</a><a href="#leadership">Leadership</a><a href="#skills">Skills</a><a href="#contact">Contact</a>
   </nav>
 </header>
 
@@ -539,6 +540,16 @@ footer{border-top:1px solid var(--line);padding-block:28px 40px}
         <button class="rail-arrow l" data-rail="topRail" data-dir="-1" aria-label="Scroll left"><svg class="icon" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7"/></svg></button>
         <div class="rail top10" id="topRail"></div>
         <button class="rail-arrow r" data-rail="topRail" data-dir="1" aria-label="Scroll right"><svg class="icon" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Weekly builds (fed by blog/posts.json) -->
+  <section class="block" id="weekly" hidden style="padding-top:12px">
+    <div class="wrap">
+      <div class="sec-head"><div><p class="eyebrow"><b>New</b> every week</p><h2>Weekly Builds</h2></div><a class="btn btn-red" href="blog/">All builds</a></div>
+      <div class="rail-wrap">
+        <div class="rail" id="weeklyRail"></div>
       </div>
     </div>
   </section>
@@ -1072,6 +1083,21 @@ const spy=new IntersectionObserver(es=>es.forEach(en=>{ if(en.isIntersecting){ c
 ['home','about','experience','projects','top10','leadership','skills','contact'].forEach(id=>{ const el=document.getElementById(id); if(el) spy.observe(el); });
 
 renderEpisodes(); renderProjects(); renderTop(); renderHack(); renderLead(); renderSkills(); setupResume(); syncSaves();
+</script>
+<script>
+(function(){
+  var esc=function(x){return String(x==null?'':x).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})};
+  fetch('blog/posts.json',{cache:'no-cache'}).then(function(r){return r.json()}).then(function(posts){
+    if(!posts||!posts.length)return;
+    posts.sort(function(a,b){return b.date.localeCompare(a.date)});
+    document.getElementById('weeklyRail').innerHTML=posts.slice(0,8).map(function(p){
+      return '<a class="card" href="blog/post.html?p='+encodeURIComponent(p.slug)+'"><div class="card-body">'+
+        '<div class="card-row"><span class="card-kind">Week '+esc(p.week)+'</span></div>'+
+        '<h3>'+esc(p.title)+'</h3><p class="card-sub">'+esc(p.summary)+'</p></div></a>';
+    }).join('');
+    document.getElementById('weekly').hidden=false;
+  }).catch(function(){});
+})();
 </script>
 </body>
 </html>

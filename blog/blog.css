@@ -1,0 +1,61 @@
+:root{
+  --bg:#0b0b0c; --surface:#151517; --surface-2:#1d1d20; --line:#2a2a2e; --line-2:#3a3a40;
+  --fg:#f4f2ef; --fg-2:#b9b6b1; --fg-3:#85827d;
+  --red:#e50914; --red-hi:#ff2a35; --red-ink:#ffb3b7;
+  --display:"Bebas Neue",Impact,"Arial Narrow",sans-serif;
+  --body:"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --gutter:clamp(16px,4vw,56px); --maxw:1320px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{text-wrap:balance;margin:0}
+:focus-visible{outline:2px solid var(--fg);outline-offset:3px;border-radius:4px}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter)}
+.eyebrow{font:600 11px/1 var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--fg-3)}
+.eyebrow b{color:var(--red);font-weight:600}
+
+.topbar{position:sticky;top:0;z-index:10;background:linear-gradient(#0b0b0c,rgba(11,11,12,.92));border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:64px}
+.wordmark{font:400 30px/1 var(--display);color:var(--red);letter-spacing:.04em}
+.topnav{display:flex;gap:22px;font-size:14px;color:var(--fg-2)}
+.topnav a:hover,.topnav a[aria-current]{color:var(--fg)}
+
+.head{padding-block:clamp(40px,7vw,88px) 28px}
+.head h1{font:400 clamp(48px,8vw,96px)/.9 var(--display);letter-spacing:.01em;margin-top:12px}
+.head p{color:var(--fg-2);max-width:40em;margin-top:14px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;padding-bottom:72px}
+.card{display:flex;flex-direction:column;gap:8px;background:var(--surface);border-radius:6px;padding:18px;border-top:3px solid var(--red);transition:transform .2s,box-shadow .2s;min-width:0}
+.card:hover,.card:focus-visible{transform:translateY(-4px);box-shadow:0 18px 40px rgba(0,0,0,.55)}
+.card-kind{font:600 10px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--red-ink)}
+.card h2{font-size:20px;line-height:1.2}
+.card p{font-size:14px;color:var(--fg-2);line-height:1.5;margin:0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+.chip{font:500 11px/1 var(--mono);padding:5px 8px;border:1px solid var(--line-2);border-radius:3px;color:var(--fg-2)}
+.empty{color:var(--fg-3);padding:40px 0 80px}
+
+article{max-width:760px;margin:0 auto;padding:clamp(32px,6vw,72px) var(--gutter) 96px}
+article .meta{display:flex;flex-wrap:wrap;gap:8px 16px;color:var(--fg-3);font:500 12px/1.4 var(--mono);margin-top:14px}
+article h1{font:400 clamp(42px,7vw,76px)/.95 var(--display);letter-spacing:.01em;margin-top:12px}
+article .links{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0 8px}
+.btn{display:inline-flex;align-items:center;min-height:42px;padding:0 18px;border-radius:4px;font-weight:700;font-size:14px}
+.btn-red{background:var(--red);color:#fff}.btn-red:hover{background:var(--red-hi)}
+.btn-ghost{border:1px solid var(--line-2)}.btn-ghost:hover{border-color:var(--fg)}
+.prose{margin-top:28px;overflow-wrap:anywhere}
+.prose h2{font:400 34px/1 var(--display);letter-spacing:.01em;margin:40px 0 12px}
+.prose h3{font-size:19px;margin:28px 0 8px}
+.prose p,.prose ul,.prose ol{margin:0 0 16px;color:#dedbd6}
+.prose a{color:var(--red-ink);text-decoration:underline;text-underline-offset:3px}
+.prose code{font:500 .88em var(--mono);background:var(--surface-2);padding:2px 5px;border-radius:3px}
+.prose pre{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;overflow-x:auto}
+.prose pre code{background:none;padding:0}
+.prose blockquote{margin:0 0 16px;padding:4px 0 4px 16px;border-left:3px solid var(--red);color:var(--fg-2)}
+.prose table{border-collapse:collapse;width:100%;margin-bottom:16px;font-size:14px;display:block;overflow-x:auto}
+.prose th,.prose td{border:1px solid var(--line);padding:8px 10px;text-align:left}
+.prose img{max-width:100%;border-radius:6px}
+
+footer{border-top:1px solid var(--line);color:var(--fg-3);font-size:13px;padding:24px 0}
+@media (max-width:560px){.topnav{gap:14px}}

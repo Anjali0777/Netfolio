@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0b0c">
+<title>Weekly Builds — ANJALI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Hanken+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap">
+<link rel="stylesheet" href="blog.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.2/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.1.6/purify.min.js"></script>
+</head>
+<body>
+<header class="topbar"><div class="wrap">
+  <a class="wordmark" href="../">ANJALI</a>
+  <nav class="topnav" aria-label="Primary"><a href="../">Home</a><a href="../#projects">Projects</a><a href="./">Blog</a></nav>
+</div></header>
+<article id="post"><p class="eyebrow">Loading…</p></article>
+<footer><div class="wrap">© <span id="yr"></span> Anjali Gupta · <a href="./">All builds</a></div></footer>
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const safeUrl = u => /^https:\/\//.test(u || '') ? esc(u) : '';
+const fmt = d => new Date(d + 'T12:00:00').toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+const slug = new URLSearchParams(location.search).get('p') || '';
+const el = document.getElementById('post');
+const fail = msg => { el.innerHTML = `<p class="eyebrow">Not found</p><h1>${esc(msg)}</h1><div class="links"><a class="btn btn-ghost" href="./">All builds</a></div>`; };
+
+if (!/^[a-z0-9-]+$/.test(slug)) fail('No such post');
+else Promise.all([
+  fetch('posts.json', {cache:'no-cache'}).then(r => r.json()),
+  fetch(`posts/${slug}.md`, {cache:'no-cache'}).then(r => { if (!r.ok) throw 0; return r.text(); })
+]).then(([posts, md]) => {
+  const p = posts.find(x => x.slug === slug) || {title: slug};
+  document.title = `${p.title} — ANJALI`;
+  const repo = safeUrl(p.repo), demo = safeUrl(p.demo);
+  el.innerHTML = `
+    <p class="eyebrow"><b>Week ${esc(p.week)}</b> · Weekly Builds</p>
+    <h1>${esc(p.title)}</h1>
+    <div class="meta">${p.date ? `<span>${esc(fmt(p.date))}</span>` : ''}${(p.tags || []).map(t => `<span>#${esc(t)}</span>`).join('')}</div>
+    <div class="links">
+      ${repo ? `<a class="btn btn-red" href="${repo}" target="_blank" rel="noopener">View code</a>` : ''}
+      ${demo ? `<a class="btn btn-ghost" href="${demo}" target="_blank" rel="noopener">Live demo</a>` : ''}
+    </div>
+    <div class="prose">${DOMPurify.sanitize(marked.parse(md.replace(/^---[\s\S]*?---\s*/, '')))}</div>`;
+}).catch(() => fail('Couldn’t load this post'));
+</script>
+</body>
+</html>
