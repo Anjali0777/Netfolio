@@ -1,11 +1,1 @@
-[
-  {
-    "slug": "cold-chain-sentinel",
-    "week": 1,
-    "date": "2026-10-12",
-    "title": "Cold Chain Sentinel",
-    "summary": "After hackers forced supermarket fridges to 50 °C overnight, I built a monitor that flags the attack hours before opening, while stock is still saveable.",
-    "tags": ["python", "pandas", "fastapi", "security"],
-    "repo": "https://github.com/Anjali0777/cold-chain-sentinel"
-  }
-]
+[]
