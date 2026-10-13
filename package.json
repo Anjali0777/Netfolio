@@ -1,0 +1,12 @@
+{
+  "name": "netfolio",
+  "version": "1.0.0",
+  "description": "Anjali Gupta's portfolio website",
+  "private": true,
+  "scripts": {
+    "serve": "npx serve ."
+  },
+  "dependencies": {
+    "@vercel/analytics": "^1.1.1"
+  }
+}
