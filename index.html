@@ -41,12 +41,16 @@ p{margin:0}
 /* ---------- Intro ---------- */
 .intro{position:fixed;inset:0;z-index:500;background:#000;display:grid;place-items:center;overflow:hidden;transition:opacity .45s ease,visibility .45s}
 .intro.done{opacity:0;visibility:hidden}
-.intro-stage{position:relative;display:grid;place-items:center;width:100%;height:clamp(140px,26vw,300px)}
-.intro-word{position:absolute;font-family:var(--display);line-height:.8;white-space:nowrap;letter-spacing:.01em}
-.intro-name{font-size:clamp(48px,11vw,150px);color:var(--fg);opacity:0}
-.intro-logo{font-size:clamp(96px,22vw,300px);color:var(--red);text-shadow:0 0 0 rgba(229,9,20,0);transition:transform .4s ease}
-.intro-logo{opacity:0}
-.intro.waiting .intro-logo{opacity:1;cursor:pointer}
+.intro-stage{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+/* Wordmark the ribbon A shrinks into; the other letters build in as three bands each */
+.iw{position:relative;display:flex;align-items:baseline;font:400 clamp(72px,17vw,230px)/1 var(--display);color:var(--red);white-space:nowrap;letter-spacing:.015em;transform-origin:50% 50%;will-change:transform,opacity}
+.iw .rw{display:inline-block;height:.7em;width:.5em;margin-right:.025em;position:relative;z-index:2}
+.iw .rw svg{display:block;width:100%;height:100%;overflow:visible;transform-origin:50% 50%;opacity:0;will-change:transform,opacity,filter}
+.iw .l{position:relative;display:inline-block}
+.iw .l .sp{visibility:hidden}
+.iw .l .b{position:absolute;left:0;top:0;clip-path:inset(0 100% 0 0)}
+.intro.waiting .iw .rw svg{animation:ribbonBreathe 2.4s ease-in-out infinite}
+@keyframes ribbonBreathe{50%{filter:drop-shadow(0 0 28px rgba(229,9,20,.45))}}
 .intro{cursor:default}.intro.waiting{cursor:pointer}
 .intro-ui{position:absolute;left:0;right:0;bottom:clamp(40px,10vh,96px);display:grid;justify-items:center;gap:18px;padding-inline:16px;text-align:center;transition:opacity .25s;opacity:0;pointer-events:none}
 .intro.waiting .intro-ui{opacity:1;pointer-events:auto}
@@ -56,15 +60,6 @@ p{margin:0}
 .intro-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
 .intro-skip{position:absolute;top:calc(20px + env(safe-area-inset-top,0px));right:20px;font:600 12px var(--mono);letter-spacing:.1em;color:var(--fg-2);padding:9px 14px;border:1px solid var(--line-2);border-radius:4px;background:rgba(255,255,255,.04)}
 .intro-skip:hover{color:var(--fg);border-color:var(--fg-3)}
-.intro.playing .intro-logo{opacity:0}
-.intro.t-name .intro-name{animation:nameIn .42s cubic-bezier(.2,.8,.2,1) forwards}
-.intro.t-logo .intro-name{animation:nameOut .28s ease forwards}
-.intro.t-logo .intro-logo{animation:logoHit .55s cubic-bezier(.16,.9,.25,1) forwards}
-.intro.t-zoom .intro-logo{animation:logoZoom .9s cubic-bezier(.6,0,.9,.4) forwards}
-@keyframes nameIn{from{opacity:0;transform:scale(.9);filter:blur(10px)}to{opacity:1;transform:none;filter:none}}
-@keyframes nameOut{to{opacity:0;transform:scale(1.15);filter:blur(8px)}}
-@keyframes logoHit{0%{opacity:0;transform:scale(.6);filter:blur(14px)}45%{opacity:1;transform:scale(1.06);filter:none;text-shadow:0 0 60px rgba(229,9,20,.7)}100%{opacity:1;transform:scale(1);text-shadow:0 0 30px rgba(229,9,20,.35)}}
-@keyframes logoZoom{0%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(9);filter:blur(6px)}}
 
 /* ---------- Buttons ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:46px;padding:0 22px;border-radius:4px;font-weight:700;font-size:15px;transition:background .15s,transform .15s,border-color .15s;white-space:nowrap}
@@ -383,8 +378,20 @@ footer{border-top:1px solid var(--line);padding-block:28px 40px}
 <div class="intro" id="intro" role="dialog" aria-modal="true" aria-label="Intro">
   <button class="intro-skip" id="skipIntro">Skip intro</button>
   <div class="intro-stage" aria-hidden="true">
-    <div class="intro-word intro-name">ANJALI GUPTA</div>
-    <div class="intro-word intro-logo">ANJALI</div>
+    <div class="iw" id="iw">
+      <span class="rw" id="rw"><svg viewBox="1 11 29.5 42" aria-hidden="true">
+        <defs>
+          <linearGradient id="rbDark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6e040b"/><stop offset=".35" stop-color="#9a0610"/><stop offset="1" stop-color="#b20710"/></linearGradient>
+          <linearGradient id="rbBright" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff2531"/><stop offset=".6" stop-color="#e50914"/><stop offset="1" stop-color="#d00812"/></linearGradient>
+          <linearGradient id="rbBar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f0101b"/><stop offset="1" stop-color="#c3070f"/></linearGradient>
+        </defs>
+        <path fill="url(#rbDark)" d="M12 12h7.5l10 40h-7.5z"/>
+        <path fill="#000" opacity=".28" d="M19.5 12 16.3 24.8 13.3 12.6 12 12z"/>
+        <path fill="url(#rbBright)" d="M12 12h7.5L9.5 52H2z"/>
+        <path fill="#000" opacity=".22" d="M8.1 43h15.9l-.5 2H7.6z"/>
+        <path fill="url(#rbBar)" d="M7.5 37h17l-1.5 6H6z"/>
+      </svg></span><span class="l"><span class="sp">N</span></span><span class="l"><span class="sp">J</span></span><span class="l"><span class="sp">A</span></span><span class="l"><span class="sp">L</span></span><span class="l"><span class="sp">I</span></span>
+    </div>
   </div>
   <div class="intro-ui">
     <p class="intro-tag">A software engineer original</p>
@@ -963,9 +970,8 @@ function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('sh
 // so we try to autoplay first; if the browser blocks it, the logo waits for the first click or key.
 const intro=$('#intro'), audio=$('#tudum');
 let introRunning=false, waiting=false;
-const T = {name:.30, logo:.74, zoom:2.55, end:3.35}; // seconds, matched to the audio's two hits and its decay
 function finishIntro(){
-  intro.classList.add('done'); intro.classList.remove('playing','waiting','t-name','t-logo','t-zoom');
+  intro.classList.add('done'); intro.classList.remove('playing','waiting');
   if(!openModal && !$('#drawer').classList.contains('open')) document.body.classList.remove('locked');
   introRunning=false; waiting=false;
   setTimeout(()=>{ if(intro.classList.contains('done')) intro.style.display='none'; },500);
@@ -976,30 +982,72 @@ function fadeOutAudio(){
   step();
 }
 function skipIntro(){ fadeOutAudio(); finishIntro(); }
+// Intro animation, modelled on the Netflix logo sting: a big ribbon "A" lands on the first hit,
+// glows on the second, then shrinks into the wordmark while N-J-A-L-I build in, band by band.
+const IW=$('#iw'), RW=$('#rw'), RS=RW.firstElementChild, LETTERS=$$('#iw .l');
+const BAND_ORDER=[[0,.22,.1],[.16,0,.26],[.08,.24,0],[0,.14,.28],[.2,.06,0]];
+LETTERS.forEach((l,i)=>{
+  const ch=l.textContent;
+  for(let k=0;k<3;k++){ const s=document.createElement('span'); s.className='b'; s.textContent=ch; s.dataset.k=k; s.dataset.o=BAND_ORDER[i][k]; l.appendChild(s); }
+});
+const clamp01=x=>x<0?0:x>1?1:x;
+const easeOut=x=>1-Math.pow(1-x,3), easeInOut=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2, easeIn=x=>x*x*x;
+const IT={appear:.22, appearDur:.2, hit:.30, dum:.74, shrink:.98, shrinkDur:.34, letters:1.2, letterGap:.1, letterDur:.34, exit:2.72, exitDur:.55, end:3.3};
+function drawIntro(t, fromWaiting){
+  // where the ribbon sits when it is the first letter of the wordmark (exit scale ignored: shrink is done by then)
+  const r=RW.getBoundingClientRect();
+  const bigH=Math.min(innerHeight*.5, innerWidth*.8);
+  const S=bigH/Math.max(r.height,1);
+  const dx=innerWidth/2-(r.left+r.width/2), dy=innerHeight*.45-(r.top+r.height/2); // sits a little high so it clears the start button
+  const a = fromWaiting ? 1 : easeOut(clamp01((t-IT.appear)/IT.appearDur));
+  const e = easeInOut(clamp01((t-IT.shrink)/IT.shrinkDur));
+  const pulse = Math.max(0, Math.sin(Math.PI*clamp01((t-IT.dum+.04)/.34)));
+  const press = fromWaiting ? Math.sin(Math.PI*clamp01((t-IT.hit+.06)/.22))*-.04 : 0;
+  const land = (1.22-.22*a);
+  const scale = (S*(1-e)+e) * land * (1+press+.035*pulse*(1-e));
+  RS.style.opacity=a;
+  RS.style.transform=`translate(${dx*(1-e)}px,${dy*(1-e)}px) scale(${scale})`;
+  const glow=Math.max(pulse*(1-e), (1-a)*.6);
+  RS.style.filter = glow>.01 ? `drop-shadow(0 0 ${Math.round(34*glow)}px rgba(229,9,20,${(.75*glow).toFixed(2)})) blur(${((1-a)*10).toFixed(1)}px)` : 'none';
+  LETTERS.forEach((l,i)=>{
+    const p=clamp01((t-IT.letters-i*IT.letterGap)/IT.letterDur);
+    l.querySelectorAll('.b').forEach(b=>{
+      const k=+b.dataset.k, q=clamp01((p-+b.dataset.o)/(1-.28));
+      const top=k*33.33-.6, bot=100-(k+1)*33.33-.6;
+      b.style.clipPath=`inset(${Math.max(0,top)}% ${((1-easeOut(q))*100).toFixed(2)}% ${Math.max(0,bot)}% 0)`;
+    });
+  });
+  const x=clamp01((t-IT.exit)/IT.exitDur), xi=easeIn(x);
+  IW.style.opacity=1-xi;
+  IW.style.transform=x>0?`scale(${1+.35*xi})`:'';
+  IW.style.filter=x>0?`blur(${(xi*8).toFixed(1)}px)`:'';
+}
+function resetIntroArt(){ IW.style.opacity=''; IW.style.transform=''; IW.style.filter=''; drawIntro(0,false); }
 function runVisuals(){
   if(introRunning) return;
+  const fromWaiting=intro.classList.contains('waiting');
   introRunning=true; waiting=false;
   intro.classList.remove('waiting'); intro.classList.add('playing');
   const t0=performance.now();
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches){ intro.classList.add('t-logo'); setTimeout(finishIntro,1600); return; }
-  const stages=[['t-name',T.name],['t-logo',T.logo],['t-zoom',T.zoom]]; let si=0;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){ drawIntro(IT.letters+1,true); setTimeout(finishIntro,1600); return; }
   const tick=()=>{
     if(!introRunning) return;
     // follow the audio clock while it plays so the visuals stay locked to the sound
     const t = (!audio.paused && audio.currentTime>0) ? audio.currentTime : (performance.now()-t0)/1000;
-    while(si<stages.length && t>=stages[si][1]){ intro.classList.add(stages[si][0]); si++; }
-    if(t>=T.end){ finishIntro(); return; }
+    drawIntro(t, fromWaiting);
+    if(t>=IT.end){ finishIntro(); return; }
     requestAnimationFrame(tick);
   };
   requestAnimationFrame(tick);
 }
+addEventListener('resize',()=>{ if(waiting) drawIntro(.6,true); });
 function playWithSound(){
   try{ audio.currentTime=0; audio.volume=1; return audio.play() || Promise.resolve(); }
   catch(e){ return Promise.reject(e); }
 }
 function showWaiting(){
   if(introRunning || intro.classList.contains('done')) return;
-  waiting=true; intro.classList.add('waiting');
+  waiting=true; intro.classList.add('waiting'); drawIntro(.6,true);
   setTimeout(()=>$('#startIntro').focus({preventScroll:true}),30);
 }
 function startFromGesture(){
@@ -1009,7 +1057,7 @@ function startFromGesture(){
   runVisuals();
 }
 function autoStart(){
-  intro.style.display=''; intro.classList.remove('done','playing','waiting','t-name','t-logo','t-zoom');
+  intro.style.display=''; intro.classList.remove('done','playing','waiting'); resetIntroArt();
   document.body.classList.add('locked');
   let settled=false;
   const guard=setTimeout(()=>{ if(!settled){ settled=true; audio.pause(); showWaiting(); } },1500);
@@ -1019,7 +1067,7 @@ function autoStart(){
 intro.addEventListener('pointerdown',e=>{ if(e.target.closest('#skipIntro')) return; startFromGesture(); });
 $('#startIntro').addEventListener('click',startFromGesture);
 $('#skipIntro').addEventListener('click',e=>{ e.stopPropagation(); skipIntro(); });
-$('#replayIntro').addEventListener('click',()=>{ intro.style.display=''; intro.classList.remove('done'); document.body.classList.add('locked'); waiting=true; startFromGesture(); });
+$('#replayIntro').addEventListener('click',()=>{ intro.style.display=''; intro.classList.remove('done'); resetIntroArt(); document.body.classList.add('locked'); waiting=true; startFromGesture(); });
 autoStart();
 
 /* ---------- events ---------- */
