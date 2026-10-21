@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "slug": "runner-dispatch",
+    "week": 1,
+    "date": "2026-10-21",
+    "title": "Runner Dispatch",
+    "summary": "A CI job scheduler whose cost doesn't grow with the backlog: at 100k queued jobs, assignment drops from 765 µs to 495 ns.",
+    "tags": ["go", "scheduling", "data-structures", "systems"],
+    "repo": "https://github.com/Anjali0777/runner-dispatch"
+  }
+]
