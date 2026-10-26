@@ -5,7 +5,26 @@
     "date": "2026-10-21",
     "title": "Runner Dispatch",
     "summary": "A CI job scheduler whose cost doesn't grow with the backlog: at 100k queued jobs, assignment drops from 765 µs to 495 ns.",
-    "tags": ["go", "scheduling", "data-structures", "systems"],
+    "tags": [
+      "go",
+      "scheduling",
+      "data-structures",
+      "systems"
+    ],
     "repo": "https://github.com/Anjali0777/runner-dispatch"
+  },
+  {
+    "slug": "hotspot-ring",
+    "week": 2,
+    "date": "2026-10-26",
+    "title": "Hotspot Ring",
+    "summary": "Routing skewed traffic so hot keys can't overload one node: busiest node drops from 8.3× to 1.25× its fair share with bounded-load hashing.",
+    "tags": [
+      "typescript",
+      "hashing",
+      "load-balancing",
+      "distributed-systems"
+    ],
+    "repo": "https://github.com/Anjali0777/hotspot-ring"
   }
 ]
